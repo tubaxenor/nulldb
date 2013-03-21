@@ -150,10 +150,6 @@ class ActiveRecord::ConnectionAdapters::NullDBAdapter <
     "NullDB"
   end
 
-  def self.emulate_booleans
-    true
-  end
-
   def supports_migrations?
     true
   end
