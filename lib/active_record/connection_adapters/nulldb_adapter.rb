@@ -125,6 +125,7 @@ class ActiveRecord::ConnectionAdapters::NullDBAdapter <
     @config         = config.merge(:adapter => :nulldb)
     super(nil, @logger)
     @visitor = Arel::Visitors::ToSql.new self if defined?(Arel::Visitors::ToSql)
+    Kernel.load(@schema_path)
   end
 
   # A log of every statement that has been "executed" by this connection adapter
@@ -277,7 +278,7 @@ class ActiveRecord::ConnectionAdapters::NullDBAdapter <
 
   def select_all(statement, name=nil, binds = [])
     with_entry_point(:select_all) do
-      super(statement, name)
+      super(statement, name, binds = [])
     end
   end
 
