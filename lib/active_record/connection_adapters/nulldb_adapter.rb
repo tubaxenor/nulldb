@@ -150,6 +150,8 @@ class ActiveRecord::ConnectionAdapters::NullDBAdapter <
     "NullDB"
   end
 
+  self.emulate_booleans = true
+
   def supports_migrations?
     true
   end
@@ -281,15 +283,21 @@ class ActiveRecord::ConnectionAdapters::NullDBAdapter <
     end
   end
 
-  def select_one(statement, name=nil)
+  def select_one(statement, name=nil, binds = [])
     with_entry_point(:select_one) do
+      super(statement, name, binds = [])
+    end
+  end
+
+  def select_values(statement, name=nil)
+    with_entry_point(:select_value) do
       super(statement, name)
     end
   end
 
-  def select_value(statement, name=nil)
+  def select_value(statement, name=nil, binds = [])
     with_entry_point(:select_value) do
-      super(statement, name)
+      super(statement, name, binds = [])
     end
   end
 
