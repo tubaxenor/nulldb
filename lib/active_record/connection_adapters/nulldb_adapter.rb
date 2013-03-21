@@ -125,7 +125,7 @@ class ActiveRecord::ConnectionAdapters::NullDBAdapter <
     @config         = config.merge(:adapter => :nulldb)
     super(nil, @logger)
     @visitor = Arel::Visitors::ToSql.new self if defined?(Arel::Visitors::ToSql)
-    Kernel.load(@schema_path)
+    Kernel.load(@schema_path) if @tables.size <= 1
   end
 
   # A log of every statement that has been "executed" by this connection adapter
