@@ -252,7 +252,7 @@ class ActiveRecord::ConnectionAdapters::NullDBAdapter <
     [].tap do
       self.execution_log << Statement.new(entry_point, statement)
     end
-  end  
+  end
 
   def insert(statement, name = nil, primary_key = nil, object_id = nil, sequence_name = nil, binds = [])
     (object_id || next_unique_id).tap do
@@ -277,7 +277,9 @@ class ActiveRecord::ConnectionAdapters::NullDBAdapter <
 
   def select_all(statement, name=nil, binds = [])
     with_entry_point(:select_all) do
-      super(statement, name, binds = [])
+      x = super(statement, name)
+      x.class.send(:define_method, :column_types) { [] }
+      x
     end
   end
 
